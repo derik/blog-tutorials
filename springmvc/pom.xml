@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.deriklima.springmvc</groupId>
+  <artifactId>springmvc</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>Spring MVC Web App</name>
+  <url>http://deriklima.com/how-to-java-web-maven-spring-mvc-annotations</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+
+    <app.context>springmvc</app.context>
+    <app.war.location>target/springmvc.war</app.war.location>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>5.2.4.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>springmvc</finalName>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.2</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+
+      <!-- Tomcat 9 Cargo Plugin-->
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.7.10</version>
+        <configuration>
+          <container>
+            <systemProperties>
+            </systemProperties>
+            <containerId>tomcat9x</containerId>
+            <zipUrlInstaller>
+              <url>
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.29/tomcat-9.0.29.zip
+              </url>
+            </zipUrlInstaller>
+          </container>
+          <deployables>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>simple-war</artifactId>
+              <type>war</type>
+              <location>${app.war.location}</location>
+              <properties>
+                <context>${app.context}</context>
+              </properties>
+            </deployable>
+          </deployables>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
